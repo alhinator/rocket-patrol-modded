@@ -68,6 +68,26 @@ class Play extends Phaser.Scene{
         //     this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5)
         //     this.gameOver = true
         // }, null, this)
+
+
+
+        //particle emitters
+        //code adapted from https://labs.phaser.io/edit.html?src=src\game%20objects\particle%20emitter\explode%20emitter.js
+
+        this.emitter = this.add.particles(-100,-100, 'bit', {
+          lifespan: 1200,
+          speed: {min: 10, max: 50},
+          scale: {start:4, end:0},
+          gravityX: 200,
+          gravityY: 1,
+          blendMode: 'ADD', 
+          emitting: false
+        })
+
+        this.createExplosion = (_x, _y) => {
+          this.emitter.setPosition(_x, _y)
+          this.emitter.explode(Math.random()*10+10)
+        }
         
     }
 
@@ -157,6 +177,7 @@ class Play extends Phaser.Scene{
         this.incTime(1)
         ship.alpha = 0
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0,0)
+        this.createExplosion(ship.x + ship.width/2, ship.y + ship.height/2)
         boom.anims.play('explode')
         boom.on('animationcomplete', () => {
             ship.reset()
