@@ -19,6 +19,12 @@ Mods:
         moves half as fast horizontally as when not firing
     "FIRE" UI text (1p)
 */
+
+//citation for particle emitter code also in play.js
+//code adapted from https://labs.phaser.io/edit.html?src=src\game%20objects\particle%20emitter\explode%20emitter.js
+
+
+
 let config = {
     type: Phaser.AUTO,
     width: 640,
