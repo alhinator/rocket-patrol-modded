@@ -33,6 +33,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
             if (!this.isFiring){
                 this.sfxShot.play()
             }
+            this.scene.fireAlpha(1)
             this.isFiring = true
         }
 
@@ -50,6 +51,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
     reset() {
         this.isFiring = false
+        this.scene.fireAlpha(0)
         this.y = game.config.height - borderUISize - borderPadding        
     }
 

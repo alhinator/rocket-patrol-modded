@@ -1,12 +1,13 @@
 // Alex Leghart
 //Mod Title: Modkit Patrol
-//Time Taken Per Mod: 30m (both time mods) + 10m (smaller rocket mod) + 25m (particle effect)
+//Time Taken Per Mod: 30m (both time mods) + 10m (smaller rocket mod) + 1m (control after rocket fired) + 20m (particle effect)
 //Mods:
-    //Time increment on hit/miss
-    //Time shown on screen
-    //Smaller Rocket
+    //Time increment on hit/miss (5p)
+    //Time shown on screen (3p)
+    //Smaller Rocket (5p)
         //Bonus Mod: Changes  y-pos on kill/reset but not screen loop
-    //Particle effect on spaceship hit
+    //Particle effect on spaceship hit (5p)
+    //Control Rocket on fire (1p)
 
 let config = {
     type: Phaser.AUTO,

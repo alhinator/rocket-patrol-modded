@@ -69,6 +69,9 @@ class Play extends Phaser.Scene{
         //     this.gameOver = true
         // }, null, this)
 
+        //fire UI
+        this.fireUI = this.add.text(game.config.width/2 - borderPadding*2, borderUISize + borderPadding*2, "FIRE", scoreConfig)
+        this.fireUI.alpha = 0
 
 
         //particle emitters
@@ -194,5 +197,9 @@ class Play extends Phaser.Scene{
       incTime(amount){
         this.clock += amount
         this.timeText.text = this.clock
+      }
+
+      fireAlpha(_a){
+        this.fireUI.alpha = _a
       }
 }
