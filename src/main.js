@@ -1,4 +1,11 @@
 // Alex Leghart
+//Mod Title: Modkit Patrol
+//Time Taken Per Mod: 30m (both time mods) + 10m (smaller rocket mod)
+//Mods:
+    //Time increment on hit/miss
+    //Time shown on screen
+    //Smaller Rocket
+        //Bonus Mod: Changes  y-pos on kill/reset but not screen loop
 
 let config = {
     type: Phaser.AUTO,
@@ -16,3 +23,4 @@ let borderUISize = game.config.height / 15
 let borderPadding = borderUISize / 3
 
 let keyFIRE, keyRESET, keyLEFT, keyRIGHT
+

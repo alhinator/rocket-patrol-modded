@@ -27,6 +27,7 @@ class Play extends Phaser.Scene{
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0)
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0)
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0)
+        this.ship04 = new SmallShip(this, game.config.width + game.config.width/6, borderUISize*6 + borderPadding*3.5, 'smallship', 0, 50).setOrigin(0,0)
   
 
         //keybinds
@@ -54,16 +55,23 @@ class Play extends Phaser.Scene{
 
         this.gameOver = false
         // 60-second play clock
+        //modded
+        this.clock = game.settings.gameTimer
+        this.timeLast = -1
+
+        this.timeText = this.add.text(game.config.width*3/4 + borderPadding, borderUISize + borderPadding*2, this.clock, scoreConfig)
+
+
         scoreConfig.fixedWidth = 0
-        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5)
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5)
-            this.gameOver = true
-        }, null, this)
+        // this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+        //     this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5)
+        //     this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5)
+        //     this.gameOver = true
+        // }, null, this)
         
     }
 
-    update(){
+    update(time, delta){
         
     // check key input for restart
     if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyRESET)) {
@@ -78,6 +86,31 @@ class Play extends Phaser.Scene{
             this.ship01.update()
             this.ship02.update()
             this.ship03.update()
+            this.ship04.update()
+
+            if (this.timeLast == -1) {
+              this.timeLast = time
+            }
+            //timecount
+            //console.log(`time: ${time}`)
+            //console.log(`timeLast: ${this.timeLast}`)
+            if (time >= this.timeLast + 1000){
+              console.log("clock update")
+              this.timeLast += 1000
+              this.clock -= 1
+              this.timeText.text = this.clock
+
+              
+            }
+            if (this.clock <= 0){
+              this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5)
+              this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5)
+              this.gameOver = true
+              this.timeText.text = 0
+
+            }
+            
+            
         }
         
 
@@ -99,7 +132,12 @@ class Play extends Phaser.Scene{
             console.log('kaboom ship 01')
             this.p1Rocket.reset()
             this.shipExplode(this.ship01)
-  }
+        }
+        if (this.checkCollision(this.p1Rocket, this.ship04)) {
+          console.log('kaboom ship 04')
+          this.p1Rocket.reset()
+          this.shipExplode(this.ship04)
+        }
     }
 
 
@@ -116,6 +154,7 @@ class Play extends Phaser.Scene{
       }
 
       shipExplode(ship){
+        this.incTime(1)
         ship.alpha = 0
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0,0)
         boom.anims.play('explode')
@@ -129,5 +168,10 @@ class Play extends Phaser.Scene{
         this.scoreLeft.text = this.p1Score    
         
         this.sound.play('sfx-explosion')
+      }
+
+      incTime(amount){
+        this.clock += amount
+        this.timeText.text = this.clock
       }
 }
